@@ -8,11 +8,12 @@
  * vertical orientation is more challenging */
 int main()
 {
-    int c, i, state, wordlen;
+    int c, i, state, wordlen, longest, tallest;
     int histogram[30];
     
     state = OUT;
-    wordlen = 0;
+    wordlen = longest = tallest = 0;
+
     for (i = 0; i < 30; ++i)
         histogram[i] = 0;
 
@@ -32,6 +33,13 @@ int main()
     }
 
     for (i = 0; i < 30; ++i) {
+        if (histogram[i] > 0)
+            longest = i;
+        if (histogram[i] > tallest)
+            tallest = histogram[i];
+    }
+
+    for (i = 0; i <= longest; ++i) {
         printf("%2d: ", i+1);
         int j;
         for (j = 0; j < histogram[i]; ++j)
