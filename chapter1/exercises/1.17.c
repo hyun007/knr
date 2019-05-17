@@ -2,7 +2,6 @@
 #define MAXLINE 50    /* maximum input line size */
 
 int get_line(char line[], int maxline);
-void copy(char to[], char from[]);
 
 /* exercise 1-17 whire a program to print all input lines that are longer than 
  * 80 characters. */
