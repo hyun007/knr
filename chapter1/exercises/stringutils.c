@@ -65,23 +65,19 @@ void entab(char line[], int width)
 /* detab: replace tab characters with "width" number of spaces */
 void detab(char line[], int width)
 {
-    int size, i, j, k;
-    for(i=size=0; line[i] != '\0'; ++i)
-        size = i;
-    ++size;
-    char temp[size+width*10], test_char;
+    int i, j, k;
+    for(i=1; line[i] != '\0'; ++i);
+    char temp[i*width], test_char;
     for(i=j=0; line[i] != '\0'; ++i) {
-        test_char = line[i];
-        if(test_char == '\t') {
+        if(line[i] == '\t') {
             for(k=0;k<width;++k) {
                 temp[j] = ' ';
                 ++j;
             }
-            --j;
         } else {
-            temp[j] = test_char;
+            temp[j] = line[i];
+            ++j;
         }
-        ++j;
     }
     temp[j] = '\0';
     copy(line, temp);
