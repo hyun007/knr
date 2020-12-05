@@ -37,24 +37,26 @@ void copy(char to[], char from[])
 /* entab: replace "width" number of spaces with tabs */
 void entab(char line[], int width)
 {
-    int size, space_counter, i, j;
-    for(i=0; line[i] != '\0'; ++i)
-        size = i;
-    char temp[size+10], test_char;
-    for(i=j=space_counter=0; line[i] != '\0'; ++i) {
-        test_char = line[i];
-        if(test_char == ' ') {
-            space_counter++;
-            if(space_counter == width) {
-                j = j-width+1;
-                test_char = '\t';
-                space_counter = 0;
+    int s, i, j;
+    for(i=1; line[i] != '\0'; ++i);
+    char temp[i];
+    for(i=j=s=0; line[i] != '\0'; ++i) {
+        if(line[i] == ' ') {
+            ++s;
+	    } else {
+            while(s > 0){
+                if (s>=width){
+                    temp[j] = '\t';
+                    s = s - width;
+                } else {
+                    temp[j] = ' ';
+                    --s;
+                }
+                ++j;
             }
-        } else {
-            space_counter = 0;
-        }
-        temp[j] = test_char;
-        ++j;
+            temp[j] = line[i];
+            ++j;
+	    }
     }
     temp[j] = '\0';
     copy(line, temp);
