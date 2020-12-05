@@ -8,6 +8,7 @@ int readline(char line[], int max);
 void copy(char to[], char from[]);
 void entab(char line[], int width);
 void detab(char line[], int width);
+void wrap(char line[], int width);
 
 /* getline: read a line into s, return length */
 int readline(char s[], int lim)
@@ -67,7 +68,7 @@ void detab(char line[], int width)
 {
     int i, j, k;
     for(i=1; line[i] != '\0'; ++i);
-    char temp[i*width], test_char;
+    char temp[i*width];
     for(i=j=0; line[i] != '\0'; ++i) {
         if(line[i] == '\t') {
             for(k=0;k<width;++k) {
@@ -81,4 +82,38 @@ void detab(char line[], int width)
     }
     temp[j] = '\0';
     copy(line, temp);
+}
+
+/* long_lines: break lines at a whitespace character right before the limit */
+void wrapi(char line[], int width)
+{
+    int i, j, k;
+    for(i=1; line[i] != '\0'; ++i);
+    j = i/width-1;
+    if(i%width>0)++j;
+
+    for(;j>0;--j) {
+        for(k=width*j;k>width*(j-1);--k){
+            if(line[k]==' '){
+                line[k] = '\n';
+                break;
+            }
+        }
+    }
+}
+
+void wrap(char line[], int width)
+{
+    int i,j,k;
+    i=j=k=0;
+    while(line[i] != '\0') {
+        if(line[i] == ' ')j=i;
+        if(k>=width){
+            line[j]='\n';
+            k=i-j;
+        } else {
+            ++k;
+        }
+        ++i;
+    }
 }
